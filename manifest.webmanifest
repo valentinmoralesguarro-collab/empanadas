@@ -1,0 +1,17 @@
+{
+  "name": "Empanadas Convi",
+  "short_name": "Empanadas",
+  "description": "Organizá la venta de empanadas de la comunidad: gastos, tandas, quién tiene cuántas y cuánta plata entró.",
+  "lang": "es-AR",
+  "id": "/empanadas/",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#EEF3FA",
+  "theme_color": "#EEF3FA",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
