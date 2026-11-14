@@ -3,7 +3,7 @@
    Sirve para probar la app antes de tener el Apps Script publicado. */
 (function () {
   'use strict';
-  const KEY = 'empanadas:demo:v2';
+  const KEY = 'empanadas:demo:v3';
   const YO = { email: 'vos@ejemplo.com', nombre: 'Vos', admin: true };
 
   function hoy(d) { const f = new Date(Date.now() - (d || 0) * 864e5); return f.getFullYear() + '-' + String(f.getMonth() + 1).padStart(2, '0') + '-' + String(f.getDate()).padStart(2, '0'); }
@@ -14,19 +14,18 @@
   function semilla() {
     return {
       version: 1,
-      config: { nombre: 'Convivencia de verano', docena: 15000 },
+      config: { nombre: 'Convivencia de verano', docena: 15000, grupo: ['Vos', 'Ana', 'Tomi', 'Juli', 'Mati'] },
       miembros: [YO, { email: 'ana@ejemplo.com', nombre: 'Ana', admin: false }, { email: 'tomi@ejemplo.com', nombre: 'Tomi', admin: false }],
       movs: [
-        mov(6, 'gasto', 'Ana', 0, 48000, { pago: 'bolsillo', detalle: '6 kg de carne picada' }),
-        mov(6, 'gasto', 'Tomi', 0, 21500, { pago: 'bolsillo', detalle: 'Tapas, cebolla y huevos' }),
-        mov(5, 'tanda', '', 120, 0, { detalle: 'Carne, en lo de Ana' }),
+        mov(6, 'gasto', 'Ana', 0, 48000, { detalle: '6 kg de carne picada' }),
+        mov(6, 'gasto', 'Tomi', 0, 21500, { detalle: 'Tapas, cebolla y huevos' }),
         mov(5, 'retiro', 'Tomi', 36),
         mov(5, 'retiro', 'Ana', 24),
         mov(4, 'retiro', 'Vos', 24),
+        mov(4, 'retiro', 'Juli', 12),
         mov(3, 'rendicion', 'Ana', 24, 30000),
         mov(2, 'rendicion', 'Tomi', 24, 30000),
-        mov(2, 'reintegro', 'Ana', 0, 30000, { detalle: 'Primera parte' }),
-        mov(1, 'devolucion', 'Tomi', 4, 0, { detalle: 'Le sobraron' })
+        mov(1, 'pago', 'Mati', 0, 13900, { para: 'Ana', detalle: 'Por transferencia' })
       ]
     };
   }
@@ -46,15 +45,15 @@
       case 'addMov': {
         const m = p.mov || {};
         const id = 'd' + Date.now().toString(36);
-        db.movs.push({ id, fecha: m.fecha || hoy(), tipo: m.tipo, quien: (m.quien || '').trim(), cantidad: Number(m.cantidad) || 0, monto: Number(m.monto) || 0,
-          pago: m.tipo === 'gasto' ? (m.pago === 'caja' ? 'caja' : 'bolsillo') : '', detalle: m.detalle || '', cargo: YO.nombre, creado: Date.now(), mio: true });
+        db.movs.push({ id, fecha: m.fecha || hoy(), tipo: m.tipo, quien: (m.quien || '').trim(), para: (m.para || '').trim(), cantidad: Number(m.cantidad) || 0, monto: Number(m.monto) || 0,
+          pago: '', detalle: m.detalle || '', cargo: YO.nombre, creado: Date.now(), mio: true });
         guardar(db); return espera(todo({ id }));
       }
       case 'borrarMov': case 'restaurarMov': {
         const m = db.movs.find((x) => x.id === p.id); if (!m) return espera({ ok: false, error: 'no_existe' });
         m.borrado = action === 'borrarMov'; guardar(db); return espera(todo());
       }
-      case 'setConfig': db.config = { nombre: p.nombre, docena: Number(p.docena) || 0 }; guardar(db); return espera(todo());
+      case 'setConfig': db.config = { nombre: p.nombre, docena: Number(p.docena) || 0, grupo: (p.grupo || []).slice(0, 100) }; guardar(db); return espera(todo());
       case 'addMiembro': {
         const email = String(p.email).toLowerCase(); const ya = db.miembros.find((x) => x.email === email);
         if (ya) Object.assign(ya, { nombre: p.nombre, admin: !!p.admin }); else db.miembros.push({ email, nombre: p.nombre, admin: !!p.admin });

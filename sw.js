@@ -1,6 +1,6 @@
 /* Empanadas Convi — Copyright (c) 2026 Felipe. Todos los derechos reservados. */
 // Cache de la cáscara para abrir sin señal. SUBIR VERSION EN CADA CAMBIO (si no, los teléfonos nunca lo reciben).
-const VERSION = 'empanadas-v1.3.0';
+const VERSION = 'empanadas-v1.4.0';
 const PREFIJO = 'empanadas-v';
 const SHELL = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'apple-touch-icon.png', 'backend.js', 'demo.js'];
 

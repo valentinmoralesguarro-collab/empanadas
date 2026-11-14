@@ -304,3 +304,6 @@ input:disabled { opacity: .7; }
 
 :root[data-theme="dark"] { --hoja: #1A1C24; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --hoja: #1A1C24; } }
+.tipos { grid-template-columns: repeat(2, 1fr); }
+.t-pago { background: rgba(0, 136, 255, .14); color: var(--accent-ink); }
+textarea { width: 100%; padding: 10px 14px; border-radius: var(--r-md, 12px); border: .5px solid var(--separator); background: var(--fill); outline: none; resize: vertical; line-height: 1.4; }

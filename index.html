@@ -54,17 +54,17 @@
       </div>
 
       <div class="stats">
-        <button class="stat" data-ir="movs" data-filtro="plata"><span class="etq">En caja</span><strong id="sCaja">$ 0</strong></button>
         <button class="stat" data-ir="movs" data-filtro="empanadas"><span class="etq">Vendidas</span><strong id="sVendidas">0</strong></button>
-        <button class="stat" data-ir="movs" data-filtro="empanadas"><span class="etq">En el depósito</span><strong id="sDeposito">0</strong></button>
         <button class="stat" data-ir="personas"><span class="etq">Las tiene la gente</span><strong id="sCalle">0</strong></button>
+        <button class="stat" data-ir="movs" data-filtro="plata"><span class="etq">Gastos</span><strong id="sGastos">$ 0</strong></button>
+        <button class="stat" data-ir="personas"><span class="etq" id="sCuotaEtq">A cada uno le toca</span><strong id="sCuota">$ 0</strong></button>
       </div>
 
       <div class="acciones">
         <button class="accion" data-nuevo="retiro"><span class="ic t-retiro"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span>Me llevé empanadas</button>
         <button class="accion" data-nuevo="rendicion"><span class="ic t-rendicion"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg></span>Rendí plata</button>
         <button class="accion" data-nuevo="gasto"><span class="ic t-gasto"><svg viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 11h10.6L20.5 7H6.4"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg></span>Cargar un gasto</button>
-        <button class="accion" data-nuevo="tanda"><span class="ic t-tanda"><svg viewBox="0 0 24 24"><path d="M3 16c1.5-7 16.5-7 18 0z"/><path d="M7 12.5l1.5 1.5 1.5-1.5 1.5 1.5 1.5-1.5 1.5 1.5 1.5-1.5"/></svg></span>Hicimos una tanda</button>
+        <button class="accion" data-nuevo="pago"><span class="ic t-pago"><svg viewBox="0 0 24 24"><path d="M4 12h13M13 7l5 5-5 5"/><path d="M20 5v14"/></svg></span>Pagué mi parte</button>
       </div>
 
       <section class="card">
@@ -74,9 +74,10 @@
       </section>
 
       <section class="card">
-        <h2>Hay que devolverle plata a</h2>
-        <ul class="list" id="lDevolver"></ul>
-        <p class="muted" id="vDevolver">No le debemos plata a nadie.</p>
+        <h2>Cuentas de los gastos</h2>
+        <p class="muted chico" id="cuentasInfo"></p>
+        <ul class="list" id="lDeudas"></ul>
+        <p class="muted" id="vDeudas">Están todos al día con los gastos.</p>
       </section>
 
       <button class="btn sec ancho" id="btnWhatsapp">
@@ -125,11 +126,9 @@
   <form id="formMov" autocomplete="off" novalidate>
     <div class="tipos" id="tipos">
       <button type="button" data-tipo="retiro">Se llevó</button>
-      <button type="button" data-tipo="devolucion">Devolvió</button>
       <button type="button" data-tipo="rendicion">Rindió plata</button>
       <button type="button" data-tipo="gasto">Gasto</button>
-      <button type="button" data-tipo="tanda">Tanda</button>
-      <button type="button" data-tipo="reintegro">Le devolvimos</button>
+      <button type="button" data-tipo="pago">Pagó su parte</button>
     </div>
     <p class="ayuda" id="fAyuda"></p>
 
@@ -137,6 +136,10 @@
       <input type="text" id="fQuien" list="dlNombres" maxlength="60" autocapitalize="words">
     </label>
     <datalist id="dlNombres"></datalist>
+
+    <label class="campo" id="cPara"><span>¿A quién le pagó?</span>
+      <input type="text" id="fPara" list="dlNombres" maxlength="60" autocapitalize="words">
+    </label>
 
     <div class="campo" id="cCantidad"><span id="lCantidad">¿Cuántas empanadas?</span>
       <div class="stepper">
@@ -153,13 +156,6 @@
     <label class="campo" id="cMonto"><span id="lMonto">Monto</span>
       <span class="pesos"><span>$</span><input type="text" id="fMonto" inputmode="numeric"></span>
     </label>
-
-    <div class="campo" id="cPago"><span>¿Con qué plata se pagó?</span>
-      <div class="seg" id="segPago">
-        <button type="button" data-pago="bolsillo" class="on">De su bolsillo</button>
-        <button type="button" data-pago="caja">De la caja</button>
-      </div>
-    </div>
 
     <label class="campo"><span>Detalle <em>(opcional)</em></span>
       <input type="text" id="fDetalle" maxlength="200">
@@ -194,6 +190,10 @@
     <label class="campo"><span>¿Para qué juntamos?</span><input type="text" id="cNombre" maxlength="60"></label>
     <label class="campo"><span>Precio de la docena</span><span class="pesos"><span>$</span><input type="text" id="cDocena" inputmode="numeric"></span></label>
     <p class="muted chico" id="cUnidad"></p>
+    <label class="campo"><span>Integrantes del grupo <em>(uno por renglón)</em></span>
+      <textarea id="cGrupo" rows="6" maxlength="3000" autocapitalize="words" placeholder="Ana&#10;Tomi&#10;Juli"></textarea>
+    </label>
+    <p class="muted chico">Los gastos se dividen en partes iguales entre estas personas.</p>
     <button class="btn ancho" type="submit" id="cGuardar">Guardar ajustes</button>
   </form>
 
